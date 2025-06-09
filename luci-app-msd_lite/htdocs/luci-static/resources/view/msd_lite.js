@@ -18,7 +18,7 @@ function getServiceStatus() {
 	return L.resolveDefault(callServiceList('msd_lite'), {}).then((res) => {
 		var isRunning = false;
 		try {
-			isRunning = res['msd_lite']?.['instances']?.['msd_lite']?.['running'] || false;
+			isRunning = res['msd_lite']?.['instances']?.['msd_lite-c']?.['running'] || false;
 		} catch (e) {
 			console.error('Error checking service status:', e);
 		}
@@ -68,10 +68,8 @@ return view.extend({
 			]);
 		}
 
-		// Configuration section
-		s = m.section(form.TypedSection, 'msd_lite', _('Basic Settings'));
-		s.anonymous = false;
-		s.addremove = false;
+		s = m.section(form.NamedSection, 'default', 'msd_lite');
+        s.tab('settings', _('Basic Settings'));
 
 		o = s.option(form.Flag, 'enabled', _('Enable'), _('Enable Msd_lite service'));
 		o.rmempty = false;
@@ -129,8 +127,5 @@ return view.extend({
 		o.default = '0';
 
 		return m.render();
-	},
-
-	handleSaveApply: null,
-	handleReset: null
+	}
 });
